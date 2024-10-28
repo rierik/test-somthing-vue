@@ -4,12 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3004",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "inko": "^1.1.0",
+    "konva": "^9.3.16",
     "vue": "^3.2.47"
   },
   "devDependencies": {
