@@ -1,107 +1,70 @@
 <template>
   <div>
-    <div ref="container" style="width: 100%; height: 100vh"></div>
-    <img v-if="imageUrl" :src="imageUrl" alt="Konva Canvas" style="margin-top: 20px" />
+    <input v-model="text" placeholder="이미지로 만들 텍스트 입력" />
+    <button @click="createImage">이미지 생성ddd</button>
+    <div ref="container" style="display: none"></div>
+    <img v-if="imageUrl" :src="imageUrl" alt="Generated Image" />
   </div>
 </template>
 
 <script>
-import { onMounted, onBeforeUnmount, ref } from 'vue';
 import Konva from 'konva';
-import dogImage from './assets/1.jpg'; // 강아지 이미지
-import heartImage from './assets/2.png'; // 하트 이미지
+import { ref, onMounted } from 'vue';
 
 export default {
-  name: 'KonvaComponent',
+  name: 'TextToImage',
   setup() {
-    const container = ref(null);
-    let stage = null;
+    const text = ref(''); // 사용자 입력 텍스트
     const imageUrl = ref(null);
-
-    const initKonva = () => {
-      stage = new Konva.Stage({
-        container: container.value,
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-
-      const layer = new Konva.Layer();
-      stage.add(layer);
-
-      // 첫 번째 이미지
-      const imageObj1 = new Image();
-      imageObj1.src = dogImage;
-
-      // 두 번째 이미지
-      const imageObj2 = new Image();
-      imageObj2.src = heartImage;
-
-      // 첫 번째 이미지 로드
-      imageObj1.onload = () => {
-        const konvaImage1 = new Konva.Image({
-          x: 0,
-          y: 0,
-          image: imageObj1,
-          // draggable: true,
-        });
-
-        layer.add(konvaImage1);
-        layer.draw(); // 레이어 업데이트
-
-        // 두 번째 이미지 로드
-        imageObj2.onload = () => {
-          const konvaImage2 = new Konva.Image({
-            x: stage.width() / 2 - 400, // 위치 조정
-            y: stage.height() / 2 - 240, // 위치 조정
-            image: imageObj2,
-            width: 100,
-            height: 100,
-            // draggable: true, // 주석 처리
-          });
-
-          layer.add(konvaImage2);
-          layer.draw(); // 레이어 업데이트
-
-          // 두 번째 이미지 로드 후 자동으로 내보내기
-          const dataURL = stage.toDataURL();
-          console.log('dataURL', dataURL);
-          imageUrl.value = dataURL; // 이미지 URL 상태 업데이트
-        };
-      };
-
-      // 이미지 로드 에러 처리
-      imageObj1.onerror = () => {
-        console.error('첫 번째 이미지 로드 실패');
-      };
-      imageObj2.onerror = () => {
-        console.error('두 번째 이미지 로드 실패');
-      };
-    };
-
-    const handleResize = () => {
-      if (stage) {
-        stage.width(window.innerWidth);
-        stage.height(window.innerHeight);
-        stage.draw();
-      }
-    };
+    const container = ref(null);
+    let stage, layer, textNode;
 
     onMounted(() => {
-      initKonva();
-      window.addEventListener('resize', handleResize);
+      // Konva 스테이지와 레이어 생성
+      stage = new Konva.Stage({
+        container: container.value,
+        width: 150,
+        height: 30,
+      });
+      layer = new Konva.Layer();
+      stage.add(layer);
+
+      // 텍스트 노드 생성
+      textNode = new Konva.Text({
+        x: 0,
+        y: 0,
+        text: '',
+        fontSize: 24,
+        fill: 'black',
+        fontFamily: 'RubikWetPaint-Regular',
+      });
+      layer.add(textNode);
     });
 
-    onBeforeUnmount(() => {
-      window.removeEventListener('resize', handleResize);
-    });
+    const createImage = () => {
+      textNode.text(text.value); // 입력한 텍스트 설정
+      layer.draw();
+
+      // 데이터 URL 형식으로 변환
+      imageUrl.value = stage.toDataURL();
+    };
 
     return {
+      text,
+      imageUrl,
       container,
+      createImage,
     };
   },
 };
 </script>
 
 <style>
-/* 추가 스타일 필요 시 여기에 작성 */
+@font-face {
+  font-family: 'RubikWetPaint-Regular';
+  src: url('/font/RubikWetPaint-Regular.ttf');
+}
+body {
+  font-family: 'RubikWetPaint-Regular';
+}
 </style>
