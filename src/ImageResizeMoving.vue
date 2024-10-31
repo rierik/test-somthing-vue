@@ -228,7 +228,7 @@ export default {
       if (event.touches.length === 2) {
         const dx = event.touches[0].clientX - event.touches[1].clientX;
         const dy = event.touches[0].clientY - event.touches[1].clientY;
-        const currentDistance = Math.sqrt(dx * dx + dy * dy);
+        const currentDistance = Math.sqrt(dx * dx + dy * dy); //피타고라스로 두 점 사이의 거리를 구함
 
         if (this.lastDistance) {
           const zoomFactor = currentDistance / this.lastDistance;
@@ -250,7 +250,7 @@ export default {
     },
     stopDragging() {
       this.isDragging = false;
-      this.$refs.image.style.transition = 'transform 0.1s ease'; // Enable transition
+      // this.$refs.image.style.transition = 'transform 0.1s ease'; // Enable transition
       this.lastDistance = 0; // 핀치 종료 시 거리 초기화
     },
     dragImage(event) {
