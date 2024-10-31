@@ -3,6 +3,8 @@ import HelloWorld from './components/HelloWorld.vue';
 import { ref } from 'vue';
 import Inko from 'inko/inko.min.js';
 import ImageResizeMoving from './ImageResizeMoving.vue';
+import ImageMerge from './imageMerge.vue';
+
 let inko = new Inko();
 // console.log(inko.en2ko('dksldy??'));
 
@@ -24,16 +26,17 @@ innerFunction(); // "I am outside!" 출력
 
 <template>
   <div class="form-group">
-    <label for="de_code" class="input_label">코드</label>
-    <input type="text" class="form-control" name="de_code" id="de_code" @click="chgEng($event)" />
+    <!-- <label for="de_code" class="input_label">코드</label>
+    <input type="text" class="form-control" name="de_code" id="de_code" @click="chgEng($event)" /> -->
   </div>
-  <div>
+  <!-- <div>
     <label for="">
       <input type="text" max="100" v-model="remainingLetters" />
     </label>
     <span>남은글자 : {{ remainingLetters.length }} / 100</span>
-  </div>
-  <ImageResizeMoving />
+  </div> -->
+  <!-- <ImageResizeMoving /> -->
+  <ImageMerge />
 </template>
 
 <style scoped>
