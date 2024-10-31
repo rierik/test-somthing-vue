@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import Inko from 'inko/inko.min.js';
 import ImageResizeMoving from './ImageResizeMoving.vue';
 import ImageMerge from './imageMerge.vue';
+import ToastCalendarUi from './ToastCalendarUi.vue';
 
 let inko = new Inko();
 // console.log(inko.en2ko('dksldy??'));
@@ -36,7 +37,8 @@ innerFunction(); // "I am outside!" 출력
     <span>남은글자 : {{ remainingLetters.length }} / 100</span>
   </div> -->
   <!-- <ImageResizeMoving /> -->
-  <ImageMerge />
+  <!-- <ImageMerge /> -->
+  <ToastCalendarUi />
 </template>
 
 <style scoped>
